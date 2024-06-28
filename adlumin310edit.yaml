@@ -1,0 +1,91 @@
+# Work in Progress do not use yet.
+# This playbook requires the ansible_become_password to be set in your invetory file for your adlumin host.
+# I have provided an example inventory with instructions on how to do this securely if required
+---
+- name: Refactor and update adlumin_forwarder.py for Python 3.10
+  hosts: localhost
+  become: yes
+  become_user: adlumin
+  tasks:
+    - name: Check if the script is running as root
+      fail:
+        msg: "This script must NOT be run as root or sudo. Please run it as the Adlumin user. The script will call sudo itself where required."
+      when: ansible_user_id == 'root'
+
+    - name: Check if the script is running as the adlumin user
+      fail:
+        msg: "This script must be run as the adlumin user."
+      when: ansible_user_id != 'adlumin'
+
+    - name: Set filepath to updater.py
+      set_fact:
+        file_path: "/usr/local/adlumin/updater.py"
+
+    - name: Check if the file is executable
+      stat:
+        path: "{{ file_path }}"
+      register: file_stat
+
+    - name: Ensure the updater.py file is executable
+      file:
+        path: "{{ file_path }}"
+        mode: '0755'
+      when: not file_stat.stat.exists or file_stat.stat.mode != '0755'
+
+    - name: Set adlumin_forwarder.py to be mutable
+      command: sudo chattr -i /usr/local/adlumin/adlumin_forwarder.py
+
+    - name: Run the Adlumin Script Updater
+      command: /usr/local/adlumin/updater.py
+      register: updater_result
+      ignore_errors: yes
+
+    - name: Stop the adlumin service
+      systemd:
+        name: adlumin.service
+        state: stopped
+
+    - name: Ensure zstandard is installed globally and running the latest version
+      pip:
+        name: zstandard
+        executable: python3.10
+
+    - name: Change the script to use python 3.10 instead of 3.6
+      lineinfile:
+        path: /usr/local/adlumin/adlumin_forwarder.py
+        regexp: '^#!.*python3\.6'
+        line: '#!/usr/bin/env python3.10'
+
+    - name: Correct "import zstd" to "import zstandard as zstd"
+      replace:
+        path: /usr/local/adlumin/adlumin_forwarder.py
+        regexp: '^import zstd'
+        replace: 'import zstandard as zstd'
+
+    - name: Comment out the update function of the script
+      lineinfile:
+        path: /usr/local/adlumin/adlumin_forwarder.py
+        regexp: '^updater = threading.Thread(target=update'
+        line: '#updater = threading.Thread(target=update'
+        insertafter: '^#updater = threading.Thread(target=update'
+
+    - name: Set adlumin_forwarder.py to be immutable
+      command: sudo chattr +i /usr/local/adlumin/adlumin_forwarder.py
+
+    - name: Start the Adlumin Service
+      systemd:
+        name: adlumin.service
+        state: started
+
+    - name: Wait for 5 seconds
+      pause:
+        seconds: 5
+
+    - name: Check Adlumin Service Status
+      systemd:
+        name: adlumin.service
+        register: service_status
+
+    - name: Display Adlumin Service Status
+      debug:
+        var: service_status
