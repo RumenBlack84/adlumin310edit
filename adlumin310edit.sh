@@ -69,6 +69,9 @@ echo "The Adlumin Script Updater has exited, please read above to ensure it was 
 echo "Stopping the adlumin service that was started during the update"
 sudo systemctl stop adlumin.service
 
+echo "Checking if zstandard has been installed globally and running the latest version and if not installing/updating it."
+sudo python3.10 -m pip install zstandard
+
 echo "Changing the script to use python 3.10 instead of 3.6"
 sed -i '1s|python3.6|python3.10|' /usr/local/adlumin/adlumin_forwarder.py
 
