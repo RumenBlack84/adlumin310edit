@@ -37,11 +37,11 @@
       when: not file_stat.stat.exists or file_stat.stat.mode != '0755'
 
     - name: Set adlumin_forwarder.py to be mutable
-      command: chattr -i /usr/local/adlumin/adlumin_forwarder.py
+      shell: chattr -i /usr/local/adlumin/adlumin_forwarder.py
       become: yes
 
     - name: Run the Adlumin Script Updater
-      command: /usr/local/adlumin/updater.py
+      shell: /usr/local/adlumin/updater.py
       register: updater_result
       ignore_errors: yes
 
@@ -77,7 +77,7 @@
         insertafter: '^#updater = threading.Thread(target=update'
 
     - name: Set adlumin_forwarder.py to be immutable
-      command: chattr +i /usr/local/adlumin/adlumin_forwarder.py
+      shell: chattr +i /usr/local/adlumin/adlumin_forwarder.py
       become: yes
 
     - name: Start the Adlumin Service
