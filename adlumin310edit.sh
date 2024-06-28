@@ -61,6 +61,9 @@ echo "Setting adlumin_forwarder.py to be mutable so we can update it."
 echo "WARNING: You may be prompted for your sudo password here if it has not yet been entered this session"
 sudo chattr -i /usr/local/adlumin/adlumin_forwarder.py
 
+echo "Copying bashrc from adlumin user to root to ensure we have all the needes system variables to run the script"
+cp /home/adlumin/.bashrc to /root/.bashrc
+
 #Running the Adlumin Script Updater
 echo "Running the Adlumin Script Updater, you will be prompted for your sudo password to restart the service."
 /usr/local/adlumin/updater.py

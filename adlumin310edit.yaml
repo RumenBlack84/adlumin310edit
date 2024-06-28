@@ -43,6 +43,14 @@
       become: yes
       become_user: root
 
+    - name: Copy .bashrc from /home/adlumin to /root to ensure root has the s3 variables required to run the script
+      copy:
+        src: /home/adlumin/.bashrc
+        dest: /root/.bashrc
+        owner: root
+        group: root
+        mode: '0644'
+
     - name: Run the Adlumin Script Updater
       command: /usr/local/adlumin/updater.py
 
