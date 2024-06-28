@@ -37,7 +37,8 @@
       when: not file_stat.stat.exists or file_stat.stat.mode != '0755'
 
     - name: Set adlumin_forwarder.py to be mutable
-      command: sudo chattr -i /usr/local/adlumin/adlumin_forwarder.py
+      command: chattr -i /usr/local/adlumin/adlumin_forwarder.py
+      become: yes
 
     - name: Run the Adlumin Script Updater
       command: /usr/local/adlumin/updater.py
@@ -48,11 +49,13 @@
       systemd:
         name: adlumin.service
         state: stopped
+        become: yes
 
     - name: Ensure zstandard is installed globally and running the latest version
       pip:
         name: zstandard
         executable: python3.10
+        become: yes
 
     - name: Change the script to use python 3.10 instead of 3.6
       lineinfile:
@@ -74,12 +77,14 @@
         insertafter: '^#updater = threading.Thread(target=update'
 
     - name: Set adlumin_forwarder.py to be immutable
-      command: sudo chattr +i /usr/local/adlumin/adlumin_forwarder.py
+      command: chattr +i /usr/local/adlumin/adlumin_forwarder.py
+      become: yes
 
     - name: Start the Adlumin Service
       systemd:
         name: adlumin.service
         state: started
+        become: yes
 
     - name: Wait for 5 seconds
       pause:
