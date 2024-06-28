@@ -1,6 +1,7 @@
 # This script can be used to refactor the Adlumin log forwarder to use python 3.10 instead of 3.6 https://adlumin.com
 # This is an unsupported workaround please use at your own risk. 
-Usage: just run the script as the adlumin user there are no switches or other considerations
+Usage: Run the script in order to update, refactor and lock the adlumin_forwarder.py file so that it will work with python 3.10
+There are no switches or parameters for this script. This script will intentionally break autoupdating. Rerun this script to update the log forwarder.
 #
 Written by Brian Grant
 brian.grant@n-able.com
