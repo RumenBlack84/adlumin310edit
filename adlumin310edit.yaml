@@ -6,6 +6,10 @@
   hosts: localhost
   become: yes
   become_user: adlumin
+  pre_tasks:
+    - name: Set custom remote_tmp directory
+      ansible.builtin.set_fact:
+        ansible_remote_tmp: /home/adlumin/tmp  
   tasks:
     - name: Check if the script is running as root
       fail:
