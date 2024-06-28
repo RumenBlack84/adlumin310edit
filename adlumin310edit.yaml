@@ -1,4 +1,6 @@
 # Work in Progress do not use yet.
+# currently stuck on running /usr/local/adlumin/updater.py its having issues with missing stuff, when running at cli it only works if running it as the adlumin user specifically
+
 # This playbook requires the ansible_become_password to be set in your invetory file for your adlumin host.
 # I have provided an example inventory with instructions on how to do this securely if required
 ---
