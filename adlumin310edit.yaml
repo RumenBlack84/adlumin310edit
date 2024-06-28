@@ -3,7 +3,7 @@
 # I have provided an example inventory with instructions on how to do this securely if required
 ---
 - name: Refactor and update adlumin_forwarder.py for Python 3.10
-  hosts: localhost
+  hosts: all
   become: yes
   become_user: adlumin
   pre_tasks:
