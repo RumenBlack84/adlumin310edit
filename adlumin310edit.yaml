@@ -46,6 +46,7 @@
     - name: Copy .bashrc from /home/adlumin to /root
       shell: cp /home/adlumin/.bashrc /root/.bashrc
       become: yes
+      become_user: root
 
     - name: Run the Adlumin Script Updater
       command: /usr/local/adlumin/updater.py
