@@ -1,5 +1,9 @@
 #!/bin/bash
-
+# This is an unsupported workaround please use at your own risk.
+# This is an unsupported workaround please use at your own risk.
+# This is an unsupported workaround please use at your own risk.
+# Usage: just run the script as the adlumin user there are no switches or other considerations
+#
 # Written by Brian Grant
 # brian.grant@n-able.com
 # 
@@ -24,7 +28,10 @@
 # I've set this script to first unlock the adlumin_forwarder.py script and then
 # run the updater.py script to update it. From there re-edits the forwarder script
 # with sed to include the above edits and relocks the file.
-
+#
+echo "###########################################################################################"
+echo "This is an unsupported workaround to enable python 3.10 instead of 3.6 USE AT YOUR OWN RISK"
+echo "###########################################################################################"
 # Check if the script is running as root
 if [[ $EUID -eq 0 ]]; then
    echo "This script must NOT be run as root or sudo. Please run it as the Adlumin user. The script will call sudo itself where required." 
