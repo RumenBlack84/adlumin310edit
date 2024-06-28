@@ -42,9 +42,8 @@
       become_user: root
 
     - name: Run the Adlumin Script Updater
-      shell: /usr/local/adlumin/updater.py
-      register: updater_result
-      ignore_errors: yes
+      command: /usr/local/adlumin/updater.py
+
 
     - name: Stop the adlumin service
       systemd:
