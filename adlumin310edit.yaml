@@ -39,6 +39,7 @@
     - name: Set adlumin_forwarder.py to be mutable
       shell: chattr -i /usr/local/adlumin/adlumin_forwarder.py
       become: yes
+      become_user: root
 
     - name: Run the Adlumin Script Updater
       shell: /usr/local/adlumin/updater.py
@@ -79,6 +80,7 @@
     - name: Set adlumin_forwarder.py to be immutable
       shell: chattr +i /usr/local/adlumin/adlumin_forwarder.py
       become: yes
+      become_user: root
 
     - name: Start the Adlumin Service
       systemd:
