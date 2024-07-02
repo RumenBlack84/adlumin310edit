@@ -1,6 +1,7 @@
 # This script can be used to refactor the Adlumin log forwarder to use python 3.10 instead of 3.6 https://adlumin.com
 # This is an unsupported workaround please use at your own risk. 
 Usage: 
+Ensure you've already put your tenantid into the adlumin_config.txt on the desktop of the system
 Download the script on the Adlumin Ubuntu 22.04 VM, ensure you are logged in as the adlumin user.
 ~~~ bash
 git clone https://github.com/RumenBlack84/adlumin310edit
