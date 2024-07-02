@@ -114,8 +114,9 @@
     - name: Comment out the updater start line in the script
       lineinfile:
         path: /usr/local/adlumin/adlumin_forwarder.py
-        regexp: '^updater\.start\(\)'
-        line: '#updater.start()'
+        regexp: '^(\s*)updater\.start\(\)'
+        line: '\1#updater.start()'
+        backrefs: yes
 
     - name: Set adlumin_forwarder.py to be immutable
       shell: chattr +i /usr/local/adlumin/adlumin_forwarder.py
