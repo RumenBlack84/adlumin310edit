@@ -7,7 +7,6 @@
 - name: Refactor and update adlumin_forwarder.py for Python 3.10
   hosts: all
   become: yes
-  become_user: adlumin
   pre_tasks:
     - name: Set custom remote_tmp directory
       ansible.builtin.set_fact:
