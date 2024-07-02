@@ -43,10 +43,42 @@
       become: yes
       become_user: root
 
-    - name: Copy .bashrc from /home/adlumin to /root
-      shell: cp /home/adlumin/.bashrc /root/.bashrc
-      become: yes
-      become_user: root
+    - name: Set paths for credentials and Python script
+      set_fact:
+        creds_file: /home/adlumin/.bashrc
+        python_script: /usr/local/adlumin/updater.py
+
+    - name: Read the credentials file
+      shell: cat {{ creds_file }}
+      register: creds_content
+
+    - name: Set environment variables from credentials file
+      set_fact:
+        s3_akey: "{{ creds_content.stdout_lines | select('search', 'export S3_AKEY') | map('regex_replace', 'export S3_AKEY=\"(.*)\"', '\\1') | list | first }}"
+        s3_skey: "{{ creds_content.stdout_lines | select('search', 'export S3_SKEY') | map('regex_replace', 'export S3_SKEY=\"(.*)\"', '\\1') | list | first }}"
+
+    - name: Verify environment variables are set (debug)
+      debug:
+        msg: "S3_AKEY = {{ s3_akey }}, S3_SKEY = {{ s3_skey }}"
+
+    - name: Update aws_access_key_id in the Python script
+      replace:
+        path: "{{ python_script }}"
+        regexp: "aws_access_key_id=os.environ.get\\('S3_AKEY'\\)"
+        replace: "aws_access_key='{{ s3_akey }}'"
+
+    - name: Update aws_secret_access_key in the Python script
+      replace:
+        path: "{{ python_script }}"
+        regexp: "aws_secret_access_key=os.environ.get\\('S3_SKEY'\\)"
+        replace: "aws_secret_access_key='{{ s3_skey }}'"
+
+    - name: Verify the changes (debug)
+      shell: cat {{ python_script }}
+      register: updated_script
+
+    - debug:
+        var: updated_script.stdout_lines
 
     - name: Run the Adlumin Script Updater
       command: /usr/local/adlumin/updater.py
