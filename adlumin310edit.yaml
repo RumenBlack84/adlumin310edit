@@ -82,6 +82,7 @@
 
     - name: Run the Adlumin Script Updater
       shell: /usr/local/adlumin/updater.py
+      become: yes
 
     - name: Stop the adlumin service
       systemd:
