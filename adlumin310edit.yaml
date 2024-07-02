@@ -95,11 +95,14 @@
         state: stopped
         
     - name: Ensure zstandard is installed globally and running the latest version
-      pip:
-        name: zstandard
-        executable: pip3.10
-        become: yes
-        become_user: root
+      shell: python3.10 -m pip install --upgrade zstandard
+      become: yes
+      become_user: root
+      register: install_zstandard_output
+
+    - name: Display zstandard install output
+      debug:
+        msg: "{{ install_zstandard_output.stdout }}"
 
     - name: Change the script to use python 3.10 instead of 3.6
       lineinfile:
