@@ -61,8 +61,40 @@ echo "Setting adlumin_forwarder.py to be mutable so we can update it."
 echo "WARNING: You may be prompted for your sudo password here if it has not yet been entered this session"
 sudo chattr -i /usr/local/adlumin/adlumin_forwarder.py
 
-echo "Copying bashrc from adlumin user to root to ensure we have all the needes system variables to run the script"
-cp /home/adlumin/.bashrc to /root/.bashrc
+# Normally the updater script pulls it creds from the session variables set in .bashrc of the adlumin user
+# This does not translate well to scripting or automation such as ansible so we are editing that script
+# to plug in the values from the bashrc directly to the updater script rather than have to pull them
+# from the environment variables
+# Define the file containing the export statements
+CRED_FILE="/home/adlumin/.bashrc"
+
+# Define the Python script file to update
+PYTHON_SCRIPT="/usr/local/adlumin/updater.py"
+
+# Read the credentials file and set the variables
+while IFS= read -r line
+do
+    if [[ $line =~ export[[:space:]]+([A-Za-z_]+)=\"([^\"]+)\" ]]; then
+        var_name="${BASH_REMATCH[1]}"
+        var_value="${BASH_REMATCH[2]}"
+        export "$var_name"="$var_value"
+    fi
+done < "$CRED_FILE"
+
+# Verify the variables are set
+echo "S3_AKEY = $S3_AKEY"
+echo "S3_SKEY = $S3_SKEY"
+
+# Escape variables for sed
+ESCAPED_S3_AKEY=$(printf '%s\n' "$S3_AKEY" | sed -e 's/[\/&]/\\&/g')
+ESCAPED_S3_SKEY=$(printf '%s\n' "$S3_SKEY" | sed -e 's/[\/&]/\\&/g')
+
+# Use sed to replace the lines in the Python script
+sed -i.bak -e "s/aws_access_key_id=os.environ.get('S3_AKEY')/aws_access_key_id='$ESCAPED_S3_AKEY'/" "$PYTHON_SCRIPT"
+sed -i -e "s/aws_secret_access_key=os.environ.get('S3_SKEY')/aws_secret_access_key='$ESCAPED_S3_SKEY'/" "$PYTHON_SCRIPT"
+
+# Advise of changes 
+echo "Updated $PYTHON_SCRIPT with new AWS credentials."
 
 #Running the Adlumin Script Updater
 echo "Running the Adlumin Script Updater, you will be prompted for your sudo password to restart the service."
