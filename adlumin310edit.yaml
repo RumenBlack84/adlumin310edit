@@ -98,6 +98,8 @@
       pip:
         name: zstandard
         executable: pip3.10
+        become: yes
+        become_user: root
 
     - name: Change the script to use python 3.10 instead of 3.6
       lineinfile:
