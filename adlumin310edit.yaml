@@ -109,9 +109,8 @@
     - name: Comment out the update function of the script
       lineinfile:
         path: /usr/local/adlumin/adlumin_forwarder.py
-        regexp: '^updater = threading.Thread(target=update'
+        regexp: '^updater = threading\.Thread\(target=update'
         line: '#updater = threading.Thread(target=update'
-        insertafter: '^#updater = threading.Thread(target=update'
 
     - name: Set adlumin_forwarder.py to be immutable
       shell: chattr +i /usr/local/adlumin/adlumin_forwarder.py
