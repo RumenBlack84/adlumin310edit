@@ -59,6 +59,12 @@
         regexp: "aws_secret_access_key=os.environ.get\\('S3_SKEY'\\)"
         replace: "aws_secret_access_key='{{ s3_skey }}'"
 
+    - name: Change the script to use python 3.10 instead of 3.6
+      lineinfile:
+        path: /usr/local/adlumin/updater.py
+        regexp: '^#!.*python3\.6'
+        line: '#!/usr/bin/env python3.10'
+        
     - name: Verify the changes (debug)
       shell: cat {{ python_script }}
       register: updated_script
