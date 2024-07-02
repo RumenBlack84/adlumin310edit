@@ -5,6 +5,7 @@
 # This is an unsupported workaround please use at your own risk.
 # Written by Brian Grant
 # brian.grant@n-able.com
+# Important Ensure you've already put your tenantid into the adlumin_config.txt on the desktop of the system
 # 
 # The purpose of this playbook is to act as an refactor and update script 
 # for the adlumin_forwarder.py script so that it can run properly under 
