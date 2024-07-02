@@ -96,9 +96,13 @@ sed -i -e "s/aws_secret_access_key=os.environ.get('S3_SKEY')/aws_secret_access_k
 # Advise of changes 
 echo "Updated $PYTHON_SCRIPT with new AWS credentials."
 
-#Running the Adlumin Script Updater
+# Running the Adlumin Script Updater
+# Now that we have harded the credentials in here we can run it as sudo to avoid having to provide sudo creds again
+# Not really much a difference security posture wise since these are clear text in bashrc anyway
+# These creds will also only allow you to create secure URLs and pull down very specific files and even then 
+# only we if we know their keys in the s3 storage. 
 echo "Running the Adlumin Script Updater, you will be prompted for your sudo password to restart the service."
-/usr/local/adlumin/updater.py
+sudo /usr/local/adlumin/updater.py
 echo "The Adlumin Script Updater has exited, please read above to ensure it was successfull"
 
 echo "Stopping the adlumin service that was started during the update"
