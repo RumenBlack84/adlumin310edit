@@ -29,6 +29,12 @@
 # run the updater.py script to update it. From there re-edits the forwarder script
 # with sed to include the above edits and relocks the file.
 #
+# The updater.py script is also being updated. Normally the updater script pulls it's 
+#creds from the session variables set in .bashrc of the adlumin user. This does not 
+# translate well to scripting or automation such as ansible so we are editing that script
+# to plug in the values from the bashrc directly to the updater script rather than have 
+# to pull them from the environment variables. The updater script itself is alot being
+# set to use python 3.10
 echo "###########################################################################################"
 echo "This is an unsupported workaround to enable python 3.10 instead of 3.6 USE AT YOUR OWN RISK"
 echo "###########################################################################################"
