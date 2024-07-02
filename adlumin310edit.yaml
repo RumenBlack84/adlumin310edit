@@ -131,7 +131,7 @@
     - name: Start the Adlumin Service
       systemd:
         name: adlumin.service
-        state: started
+        state: restarted
       
     - name: Wait for 5 seconds
       pause:
