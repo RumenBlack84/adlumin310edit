@@ -93,6 +93,9 @@ ESCAPED_S3_SKEY=$(printf '%s\n' "$S3_SKEY" | sed -e 's/[\/&]/\\&/g')
 sed -i.bak -e "s/aws_access_key_id=os.environ.get('S3_AKEY')/aws_access_key_id='$ESCAPED_S3_AKEY'/" "$PYTHON_SCRIPT"
 sed -i -e "s/aws_secret_access_key=os.environ.get('S3_SKEY')/aws_secret_access_key='$ESCAPED_S3_SKEY'/" "$PYTHON_SCRIPT"
 
+#Updating script to use python 3.10 instead of 3.6 this script does not need any refactoring to work properly
+sed -i '1s|python3.6|python3.10|' /usr/local/adlumin/adlumin_forwarder.py
+
 # Advise of changes 
 echo "Updated $PYTHON_SCRIPT with new AWS credentials."
 
