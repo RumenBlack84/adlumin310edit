@@ -65,7 +65,7 @@
       replace:
         path: "{{ python_script }}"
         regexp: "aws_access_key_id=os.environ.get\\('S3_AKEY'\\)"
-        replace: "aws_access_key='{{ s3_akey }}'"
+        replace: "aws_access_key_id='{{ s3_akey }}'"
 
     - name: Update aws_secret_access_key in the Python script
       replace:
