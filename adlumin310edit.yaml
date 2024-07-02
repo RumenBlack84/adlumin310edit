@@ -83,6 +83,11 @@
     - name: Run the Adlumin Script Updater
       shell: /usr/local/adlumin/updater.py
       become: yes
+      register: update_output
+
+    - name: Display Updater output
+      debug:
+        msg: "{{ update_output.stdout }}"
 
     - name: Stop the adlumin service
       systemd:
