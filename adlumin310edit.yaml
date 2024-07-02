@@ -11,16 +11,6 @@
     - name: Set custom remote_tmp directory
       ansible.builtin.set_fact:
         ansible_remote_tmp: /home/adlumin/tmp  
-  tasks:
-    - name: Check if the script is running as root
-      fail:
-        msg: "This script must NOT be run as root or sudo. Please run it as the Adlumin user. The script will call sudo itself where required."
-      when: ansible_user_id == 'root'
-
-    - name: Check if the script is running as the adlumin user
-      fail:
-        msg: "This script must be run as the adlumin user."
-      when: ansible_user_id != 'adlumin'
 
     - name: Set filepath to updater.py
       set_fact:
