@@ -2,7 +2,9 @@
 # This is an unsupported workaround please use at your own risk.
 # This is an unsupported workaround please use at your own risk.
 # This is an unsupported workaround please use at your own risk.
-# Usage: just run the script as the adlumin user there are no switches or other considerations
+# Usage: 
+# Ensure you've already put your tenantid into the adlumin_config.txt on the desktop of the system
+# just run the script as the adlumin user there are no switches or other considerations
 #
 # Written by Brian Grant
 # brian.grant@n-able.com
