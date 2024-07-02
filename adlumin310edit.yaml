@@ -88,13 +88,7 @@
     - name: Display Updater output
       debug:
         msg: "{{ update_output.stdout }}"
-
-    - name: Stop the adlumin service
-      systemd:
-        name: adlumin.service
-        scope: system
-        state: stopped
-        
+     
     - name: Ensure zstandard is installed globally and running the latest version
       shell: python3.10 -m pip install --upgrade zstandard
       become: yes
@@ -129,19 +123,17 @@
       become: yes
       become_user: root
 
-    - name: Start the Adlumin Service
+    - name: Restart the Adlumin Service
       systemd:
         name: adlumin.service
-        scope: system
-        state: restarted
-      
+        shell: adlumin_restart
+    
     - name: Wait for 5 seconds
       pause:
         seconds: 5
 
     - name: Check Adlumin Service Status
-      systemd:
-        name: adlumin.service
+      shell: adlumin_status
         register: service_status
 
     - name: Display Adlumin Service Status
