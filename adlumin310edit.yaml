@@ -124,9 +124,7 @@
       become_user: root
 
     - name: Restart the Adlumin Service
-      systemd:
-        name: adlumin.service
-        shell: adlumin_restart
+      shell: adlumin_restart
     
     - name: Wait for 5 seconds
       pause:
@@ -134,7 +132,7 @@
 
     - name: Check Adlumin Service Status
       shell: adlumin_status
-        register: service_status
+      register: service_status
 
     - name: Display Adlumin Service Status
       debug:
