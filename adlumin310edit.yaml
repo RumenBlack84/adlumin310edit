@@ -88,8 +88,7 @@
       systemd:
         name: adlumin.service
         state: stopped
-        become: yes
-
+        
     - name: Ensure zstandard is installed globally and running the latest version
       pip:
         name: zstandard
@@ -124,8 +123,7 @@
       systemd:
         name: adlumin.service
         state: started
-        become: yes
-
+      
     - name: Wait for 5 seconds
       pause:
         seconds: 5
