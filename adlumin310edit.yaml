@@ -125,6 +125,7 @@
 
     - name: Restart the Adlumin Service
       shell: adlumin_restart
+      become: yes
     
     - name: Wait for 5 seconds
       pause:
