@@ -81,8 +81,7 @@
         var: updated_script.stdout_lines
 
     - name: Run the Adlumin Script Updater
-      command: /usr/local/adlumin/updater.py
-
+      shell: /usr/local/adlumin/updater.py
 
     - name: Stop the adlumin service
       systemd:
