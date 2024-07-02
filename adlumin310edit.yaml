@@ -106,11 +106,11 @@
         regexp: '^import zstd'
         replace: 'import zstandard as zstd'
 
-    - name: Comment out the update function of the script
+    - name: Comment out the updater start line in the script
       lineinfile:
         path: /usr/local/adlumin/adlumin_forwarder.py
-        regexp: '^updater = threading\.Thread\(target=update'
-        line: '#updater = threading.Thread(target=update'
+        regexp: '^updater\.start\(\)'
+        line: '#updater.start()'
 
     - name: Set adlumin_forwarder.py to be immutable
       shell: chattr +i /usr/local/adlumin/adlumin_forwarder.py
