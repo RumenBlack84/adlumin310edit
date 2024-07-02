@@ -43,4 +43,6 @@ creds from the session variables set in .bashrc of the adlumin user. This does n
 translate well to scripting or automation such as ansible so we are editing that script
 to plug in the values from the bashrc directly to the updater script rather than have 
 to pull them from the environment variables. The updater script itself is alot being
-set to use python 3.10
+set to use python 3.10. This does not increase or reduce attack service as these s3
+credentials are used between all log forwarders and only allow secure url requests
+to pull down the specific files. Anything else done with these s3 credentials will fail.
