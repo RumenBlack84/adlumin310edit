@@ -92,7 +92,7 @@
     - name: Ensure zstandard is installed globally and running the latest version
       pip:
         name: zstandard
-        executable: python3.10
+        executable: pip3.10
 
     - name: Change the script to use python 3.10 instead of 3.6
       lineinfile:
